@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html {
   background: radial-gradient(
     circle at 25% 25%,
     #a4c6ed,
@@ -10,7 +10,13 @@ body {
     #c2c5eb,
     #f2f2f2
   );
+}
+
+body {
   font-family: "Maven Pro", sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
 }
 
 h1 {
