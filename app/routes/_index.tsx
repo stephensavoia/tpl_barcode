@@ -115,6 +115,8 @@ export default function Index() {
   const [design, setDesign] = useState(0);
   const [cardNumberError, setCardNumberError] = useState(false);
   const radioRefs = useRef<HTMLInputElement[]>([]);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
 
   useEffect(() => {
     if (actionResult && actionResult.errors?.cardNumber) {
@@ -141,6 +143,25 @@ export default function Index() {
       radioRefs.current[index].checked = true;
     }
   }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setTouchEndX(e.changedTouches[0].clientX);
+    if (touchStartX - touchEndX > 100) {
+      const leftControl = document.querySelector(
+        '[data-testid="carousel-left-control"]'
+      );
+      leftControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    } else if (touchStartX - touchEndX < -100) {
+      const rightControl = document.querySelector(
+        '[data-testid="carousel-right-control"]'
+      );
+      rightControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    }
+  };
 
   return (
     <Flowbite theme={{ theme: customTheme }}>
@@ -220,7 +241,11 @@ export default function Index() {
                 </span>
               </div>
 
-              <div className="h-[500px]">
+              <div
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className="h-[500px]"
+              >
                 <Carousel
                   slide={false}
                   onSlideChange={(index) => handleCarouselChange(index)}

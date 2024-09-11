@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  background-color: #a4c6ed;
-}
-
 body {
   font-family: "Maven Pro", sans-serif;
   min-height: 100vh;
@@ -17,8 +13,6 @@ body {
     #c2c5eb,
     #f2f2f2
   );
-  background-size: 120% 120%;
-  background-position: -20px -20px;
   min-height: 100vh;
 }
 
