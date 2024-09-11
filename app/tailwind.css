@@ -46,4 +46,9 @@ h1 {
   > input {
     display: none;
   }
+  translate: 0 -32px;
+}
+
+form > div > div > div > div > div > button {
+  translate: 0 -32px;
 }

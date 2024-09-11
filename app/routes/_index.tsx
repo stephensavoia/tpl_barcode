@@ -4,7 +4,6 @@ import type {
   LinksFunction,
   MetaFunction,
 } from "@remix-run/cloudflare";
-import type { CustomFlowbiteTheme } from "flowbite-react";
 import {
   Flowbite,
   Card,
@@ -17,6 +16,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Form, Link, useActionData } from "@remix-run/react";
 import { HiInformationCircle } from "react-icons/hi";
+import tailwindFlowbiteTheme from "~/tailwindFlowbiteTheme";
 import AspectRatioSelector from "~/components/AspectRatioSelector";
 
 export const meta: MetaFunction = () => {
@@ -41,35 +41,7 @@ export const links: LinksFunction = () => {
   return links;
 };
 
-const customTheme: CustomFlowbiteTheme = {
-  button: {
-    color: {
-      primary: "text-white bg-[#2a3c4e] hover:bg-[#2e455c]",
-    },
-  },
-  carousel: {
-    root: {
-      base: "relative h-full w-full",
-      leftControl:
-        "absolute left-0 top-0 flex h-full items-center justify-center focus:outline-none",
-      rightControl:
-        "absolute right-0 top-0 flex h-full items-center justify-center focus:outline-none",
-    },
-    indicators: {
-      active: {
-        off: "bg-gray-200 border border-gray-300 hover:bg-gray-50",
-        on: "bg-blue-700 dark:bg-gray-800",
-      },
-      base: "h-3 w-3 rounded-full",
-      wrapper:
-        "absolute translate-y-4 left-1/2 flex -translate-x-1/2 space-x-5",
-    },
-    control: {
-      base: "inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 border border-gray-300 group-hover:bg-gray-200 group-focus:outline-none group-focus:ring-2 group-focus:ring-cyan-500 sm:h-10 sm:w-10",
-      icon: "h-5 w-5 text-[#6B7280] sm:h-6 sm:w-6",
-    },
-  },
-};
+const customTheme = tailwindFlowbiteTheme;
 
 export async function action({ request }: ActionFunctionArgs) {
   let formData = await request.formData();
@@ -77,6 +49,7 @@ export async function action({ request }: ActionFunctionArgs) {
   console.log(formData);
 
   let cardNumber = String(formData.get("cardNumber") || "");
+  let aspectRatio = String(formData.get("aspectRatio") || "AR");
   let design = String(formData.get("design") || "0");
 
   let errors: { cardNumber?: string } = {};
@@ -95,12 +68,7 @@ export async function action({ request }: ActionFunctionArgs) {
       break;
   }
 
-  return String(cardNumber) + " " + String(design);
-
-  //   let errors = await validate(email, password);
-  //   if (errors) {
-  //     return json({ ok: false, errors }, 400);
-  //   }
+  return String(cardNumber) + " " + String(aspectRatio) + " " + String(design);
 }
 
 // Had to add this because typescript is too stupid to understand what a "?" means
@@ -127,12 +95,8 @@ export default function Index() {
   const handleCardNumberChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const cardNumber = event.target.value;
-      console.log(cardNumber);
-      console.log(cardNumber.length !== 14);
-      console.log(/\D/.test(cardNumber));
       if (cardNumber.length == 14 && /^\d+$/.test(cardNumber)) {
         setCardNumberError(false);
-        console.log("Card number is valid");
       }
     },
     []
@@ -149,13 +113,15 @@ export default function Index() {
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    setTouchEndX(e.changedTouches[0].clientX);
-    if (touchStartX - touchEndX > 100) {
+    const eventEndX = e.changedTouches[0].clientX;
+    setTouchEndX(eventEndX);
+
+    if (touchStartX - eventEndX < -50) {
       const leftControl = document.querySelector(
         '[data-testid="carousel-left-control"]'
       );
       leftControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    } else if (touchStartX - touchEndX < -100) {
+    } else if (touchStartX - eventEndX > 50) {
       const rightControl = document.querySelector(
         '[data-testid="carousel-right-control"]'
       );
@@ -167,26 +133,7 @@ export default function Index() {
     <Flowbite theme={{ theme: customTheme }}>
       <div className="container mx-auto max-w-md p-5 overflow-hidden">
         <h1 className="max-w-md">TPL Barcode Generator</h1>
-        {actionResult && !actionResult.errors ? (
-          <Card className="max-w-md mb-8">
-            {" "}
-            <p className="text-center">
-              This app isn't quite finished yet. <br /> Please come back soon!
-              <br />
-              <br />
-              {String(actionResult)}
-            </p>
-            <Button className="mt-8" color="blue" type="submit">
-              Download Wallpaper
-            </Button>
-            <Link
-              to="/"
-              className="text-sm font-medium text-center text-blue-600 underline dark:text-blue-500 hover:no-underline"
-            >
-              Generate Another Barcode
-            </Link>
-          </Card>
-        ) : (
+        {!(actionResult && !actionResult.errors) ? (
           <Form method="post">
             <Card className="max-w-md mb-8">
               <div className="flex max-w-md flex-col gap-4">
@@ -229,29 +176,30 @@ export default function Index() {
                         ? handleCardNumberChange
                         : undefined
                     }
+                    sizing="md"
                   />
                 </div>
               </div>
 
-              {/* <AspectRatioSelector /> */}
+              <AspectRatioSelector />
 
               <div className="block">
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-md font-medium text-gray-900">
                   Select wallpaper design
                 </span>
               </div>
 
-              <div
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-                className="h-[500px]"
-              >
+              <div className="h-[574px]">
                 <Carousel
                   slide={false}
                   onSlideChange={(index) => handleCarouselChange(index)}
                 >
                   <div className="flex h-full items-center justify-center">
-                    <label id="designRadio1" className="radio-img">
+                    <label
+                      className="radio-img"
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                    >
                       <input
                         type="radio"
                         name="design"
@@ -271,7 +219,11 @@ export default function Index() {
                     </label>
                   </div>
                   <div className="flex h-full items-center justify-center">
-                    <label className="radio-img">
+                    <label
+                      className="radio-img"
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                    >
                       <input
                         type="radio"
                         name="design"
@@ -291,7 +243,11 @@ export default function Index() {
                     </label>
                   </div>
                   <div className="flex h-full items-center justify-center">
-                    <label className="radio-img">
+                    <label
+                      className="radio-img"
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                    >
                       <input
                         type="radio"
                         name="design"
@@ -312,7 +268,7 @@ export default function Index() {
                   </div>
                 </Carousel>
               </div>
-              <Button className="mt-8" color="blue" type="submit">
+              <Button className="-translate-y-5" color="blue" type="submit">
                 Generate Barcode
               </Button>
               {actionResult && actionResult.errors && cardNumberError ? (
@@ -322,6 +278,27 @@ export default function Index() {
               ) : null}
             </Card>
           </Form>
+        ) : (
+          <Card className="max-w-md mb-8">
+            <div className="flex max-w-md flex-col gap-4">
+              {" "}
+              <p className="text-center text-md">
+                This app isn't quite finished yet. <br /> Please come back soon!
+                <br />
+                <br />
+                {String(actionResult)}
+              </p>
+              <Button color="blue" type="submit">
+                Download Wallpaper
+              </Button>
+              <Link
+                to="/"
+                className="text-md text-center pb-4 text-blue-600 underline dark:text-blue-500 hover:no-underline"
+              >
+                Generate Another Barcode
+              </Link>
+            </div>
+          </Card>
         )}
       </div>
     </Flowbite>
