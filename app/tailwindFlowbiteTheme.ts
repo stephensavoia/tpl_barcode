@@ -47,8 +47,8 @@ const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
         "absolute -translate-y-3 left-1/2 flex -translate-x-1/2 space-x-5",
     },
     control: {
-      base: "inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 border border-gray-300 group-hover:bg-gray-200 group-focus:outline-none group-focus:ring-2 group-focus:ring-cyan-500 sm:h-10 sm:w-10",
-      icon: "h-5 w-5 text-[#6B7280] sm:h-6 sm:w-6",
+      base: "inline-flex h-12 w-12 items-center justify-center rounded-full bg-gray-50 border border-gray-300 group-hover:bg-gray-200 group-focus:outline-none group-focus:ring-2 group-focus:ring-cyan-500 md:h-10 md:w-10",
+      icon: "h-7 w-7 text-[#6B7280] sm:h-6 sm:w-6",
     },
   },
   button: {

@@ -18,6 +18,7 @@ import { Form, Link, useActionData } from "@remix-run/react";
 import { HiInformationCircle } from "react-icons/hi";
 import tailwindFlowbiteTheme from "~/tailwindFlowbiteTheme";
 import AspectRatioSelector from "~/components/AspectRatioSelector";
+import WallpaperCarousel from "~/components/WallpaperCarousel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -132,7 +133,11 @@ export default function Index() {
   return (
     <Flowbite theme={{ theme: customTheme }}>
       <div className="container mx-auto max-w-md p-5 overflow-hidden">
-        <h1 className="max-w-md">TPL Barcode Generator</h1>
+        <h1 className="max-w-md">
+          <span>TPL</span>
+          <span>BARCODE</span>
+          <span>WALLPAPER</span>
+        </h1>
         {!(actionResult && !actionResult.errors) ? (
           <Form method="post">
             <Card className="max-w-md mb-8">
@@ -181,7 +186,7 @@ export default function Index() {
                 </div>
               </div>
 
-              <AspectRatioSelector />
+              {/* <AspectRatioSelector /> */}
 
               <div className="block">
                 <span className="text-md font-medium text-gray-900">
@@ -189,90 +194,22 @@ export default function Index() {
                 </span>
               </div>
 
-              <div className="h-[574px]">
-                <Carousel
-                  slide={false}
-                  onSlideChange={(index) => handleCarouselChange(index)}
-                >
-                  <div className="flex h-full items-center justify-center">
-                    <label
-                      className="radio-img"
-                      onTouchStart={handleTouchStart}
-                      onTouchEnd={handleTouchEnd}
-                    >
-                      <input
-                        type="radio"
-                        name="design"
-                        value="0"
-                        ref={(el) => (radioRefs.current[0] = el!)}
-                      />
-                      <div className="relative mx-auto border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[500px] w-[250px] shadow-xl">
-                        <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 -translate-y-0.5 absolute"></div>
-                        <div className="rounded-[2rem] overflow-hidden w-[222px] h-[472px] dark:bg-gray-800">
-                          <img
-                            src="http://loremflickr.com/222/472/rome"
-                            className="w-[222px] h-[472px]"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  <div className="flex h-full items-center justify-center">
-                    <label
-                      className="radio-img"
-                      onTouchStart={handleTouchStart}
-                      onTouchEnd={handleTouchEnd}
-                    >
-                      <input
-                        type="radio"
-                        name="design"
-                        value="1"
-                        ref={(el) => (radioRefs.current[1] = el!)}
-                      />
-                      <div className="relative mx-auto border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[500px] w-[250px] shadow-xl">
-                        <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 -translate-y-0.5 absolute"></div>
-                        <div className="rounded-[2rem] overflow-hidden w-[222px] h-[472px] dark:bg-gray-800">
-                          <img
-                            src="http://loremflickr.com/222/472/london"
-                            className="w-[222px] h-[472px]"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  <div className="flex h-full items-center justify-center">
-                    <label
-                      className="radio-img"
-                      onTouchStart={handleTouchStart}
-                      onTouchEnd={handleTouchEnd}
-                    >
-                      <input
-                        type="radio"
-                        name="design"
-                        value="2"
-                        ref={(el) => (radioRefs.current[2] = el!)}
-                      />
-                      <div className="relative mx-auto border-gray-800 bg-gray-800 border-[14px] rounded-[2.5rem] h-[500px] w-[250px] shadow-xl">
-                        <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 -translate-y-0.5 absolute"></div>
-                        <div className="rounded-[2rem] overflow-hidden w-[222px] h-[472px] dark:bg-gray-800">
-                          <img
-                            src="http://loremflickr.com/222/472/paris"
-                            className="w-[222px] h-[472px]"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                </Carousel>
-              </div>
-              <Button className="-translate-y-5" color="blue" type="submit">
+              <WallpaperCarousel
+                handleCarouselChange={handleCarouselChange}
+                handleTouchStart={handleTouchStart}
+                handleTouchEnd={handleTouchEnd}
+                radioRefs={radioRefs}
+              />
+
+              <Button className="-translate-y-6" color="blue" type="submit">
                 Generate Barcode
               </Button>
               {actionResult && actionResult.errors && cardNumberError ? (
-                <Alert color="failure" icon={HiInformationCircle}>
+                <Alert
+                  className="-translate-y-6"
+                  color="failure"
+                  icon={HiInformationCircle}
+                >
                   Oops! Check your library card number.
                 </Alert>
               ) : null}
@@ -293,7 +230,7 @@ export default function Index() {
               </Button>
               <Link
                 to="/"
-                className="text-md text-center pb-4 text-blue-600 underline dark:text-blue-500 hover:no-underline"
+                className="text-md text-center mb-4 text-blue-600 underline dark:text-blue-500 hover:no-underline"
               >
                 Generate Another Barcode
               </Link>
