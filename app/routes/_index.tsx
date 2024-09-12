@@ -22,7 +22,7 @@ import WallpaperCarousel from "~/components/WallpaperCarousel";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "TPL Barcode Phone Wallpaper Generator" },
+    { title: "TPL Barcode Generator" },
     {
       name: "description",
       content:
@@ -136,7 +136,7 @@ export default function Index() {
         <h1 className="max-w-md">
           <span>TPL</span>
           <span>BARCODE</span>
-          <span>WALLPAPER</span>
+          <span>GENERATOR</span>
         </h1>
         {!(actionResult && !actionResult.errors) ? (
           <Form method="post">
@@ -230,7 +230,7 @@ export default function Index() {
               </Button>
               <Link
                 to="/"
-                className="text-md text-center mb-4 text-blue-600 underline dark:text-blue-500 hover:no-underline"
+                className="text-md text-center mb-4 text-[#304a92] underline hover:no-underline"
               >
                 Generate Another Barcode
               </Link>

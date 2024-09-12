@@ -40,7 +40,7 @@ const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
     indicators: {
       active: {
         off: "bg-gray-200 border border-gray-300 hover:bg-gray-50",
-        on: "bg-blue-700 dark:bg-gray-800",
+        on: "bg-[#304a92] dark:bg-gray-800",
       },
       base: "h-3 w-3 rounded-full",
       wrapper:
@@ -52,6 +52,9 @@ const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
     },
   },
   button: {
+    color: {
+      blue: "border border-transparent bg-[#304a92] text-white focus:ring-4 focus:ring-blue-300 enabled:hover:bg-[#1f387a]",
+    },
     size: {
       md: "px-4 py-2 text-md",
     },

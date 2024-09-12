@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  background: #1f387a;
+}
+
 body {
   font-family: "Maven Pro", sans-serif;
   min-height: 100vh;
@@ -13,12 +17,10 @@ body {
     #c2c5eb,
     #f2f2f2
   );
-  /* background: #e5ecf5; */
   min-height: 100vh;
 }
 
 h1 {
-  color: #1e429f;
   color: #1f387a;
   text-align: center;
   font-weight: 900;
@@ -35,10 +37,10 @@ h1 > span:first-child {
 }
 h1 > span:nth-child(2) {
   font-size: 3rem;
-  margin: 0.1rem auto 0.25rem auto;
+  margin: 0.1rem auto 0.32rem auto;
 }
 h1 > span:last-child {
-  font-size: 2.5rem;
+  font-size: 2.38rem;
 }
 
 .radio-img {
