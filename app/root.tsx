@@ -37,7 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#304a92" />
         <meta name="msapplication-TileColor" content="#304a92" />
-        <meta name="theme-color" content="#f9fafb" />
+        <meta name="theme-color" content="#e5e7eb" />
         <Meta />
         <Links />
       </head>

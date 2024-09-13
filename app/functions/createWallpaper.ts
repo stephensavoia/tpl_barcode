@@ -43,24 +43,42 @@ export default function createWallpaper({
     },
   ];
 
+  const dimensions: { [key: string]: { [key: string]: number } } = {
+    low: {
+      wWidth: 222,
+      wHeight: 472,
+      bWidth: 1,
+      bHeight: 50,
+      fSize: 16,
+      margin: 10,
+    },
+    high: {
+      wWidth: 1290,
+      wHeight: 2796,
+      bWidth: 5,
+      bHeight: 250,
+      fSize: 80,
+      margin: 40,
+    },
+  };
+
   JsBarcode(barcodeRef, cardNumber, {
     format: "codabar",
-    height: 50,
-    width: 1,
-    fontSize: 16,
+    height: dimensions[res].bHeight,
+    width: dimensions[res].bWidth,
+    fontSize: dimensions[res].fSize,
+    margin: dimensions[res].margin,
     background: colors[parseInt(design)].bgColor,
     lineColor: colors[parseInt(design)].fgColor,
   });
 
-  const lowResWallpaperCtx = wallpaperRef.getContext("2d");
+  const wallpaperCtx = wallpaperRef.getContext("2d");
 
-  if (lowResWallpaperCtx) {
-    wallpaperRef.width = 222;
-    wallpaperRef.height = 472;
-    lowResWallpaperCtx.fillStyle = "#a4c6ed";
-    lowResWallpaperCtx.fillRect(0, 0, wallpaperRef.width, wallpaperRef.height);
+  if (wallpaperCtx) {
+    wallpaperRef.width = dimensions[res].wWidth;
+    wallpaperRef.height = dimensions[res].wHeight;
 
-    const gradient = lowResWallpaperCtx.createRadialGradient(
+    const gradient = wallpaperCtx.createRadialGradient(
       wallpaperRef.width * 0.27,
       wallpaperRef.height * 0.27,
       0, // Inner circle (x, y, radius)
@@ -72,12 +90,12 @@ export default function createWallpaper({
     gradient.addColorStop(0.33, colors[parseInt(design)].rColor2);
     gradient.addColorStop(0.66, colors[parseInt(design)].rColor3);
     gradient.addColorStop(1, colors[parseInt(design)].rColor4);
-    lowResWallpaperCtx.fillStyle = gradient;
+    wallpaperCtx.fillStyle = gradient;
 
-    lowResWallpaperCtx.fillRect(0, 0, wallpaperRef.width, wallpaperRef.height);
+    wallpaperCtx.fillRect(0, 0, wallpaperRef.width, wallpaperRef.height);
 
     const x = (wallpaperRef.width - barcodeRef.width) / 2;
     const y = (wallpaperRef.height - barcodeRef.height) / 2;
-    lowResWallpaperCtx.drawImage(barcodeRef, x, y);
+    wallpaperCtx.drawImage(barcodeRef, x, y);
   }
 }
