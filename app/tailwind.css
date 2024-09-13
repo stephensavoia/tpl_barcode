@@ -4,6 +4,9 @@
 
 html {
   background-color: #1f387a;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 body {
@@ -18,6 +21,9 @@ body {
     #f2f2f2
   );
   min-height: 100vh;
+  height: 100%;
+  overflow: auto;
+  position: relative;
 }
 
 h1 {
