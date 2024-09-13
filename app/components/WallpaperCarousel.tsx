@@ -56,11 +56,9 @@ const WallpaperCarousel = () => {
                 <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 -translate-y-0.5 absolute"></div>
                 <div className="rounded-[2rem] overflow-hidden w-[222px] h-[472px] dark:bg-gray-800">
                   <img
-                    src={`http://loremflickr.com/222/472/${
-                      ["rome", "london", "paris"][value]
-                    }`}
+                    src={`/img/design-${[value]}.png`}
                     className="w-[222px] h-[472px]"
-                    alt=""
+                    alt={`Barcode Wallpaper Design ${[value]}`}
                   />
                 </div>
               </div>

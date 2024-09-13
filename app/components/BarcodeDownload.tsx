@@ -25,7 +25,7 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
         barcodeRef: lowResBarcodeRef.current,
         wallpaperRef: lowResWallpaperRef.current,
         cardNumber,
-        design: "0",
+        design: design || "0",
         res: "low",
       });
     }
@@ -47,7 +47,7 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
         barcodeRef: highResBarcodeRef.current,
         wallpaperRef: highResWallpaperRef.current,
         cardNumber,
-        design: "0",
+        design: design || "0",
         res: "high",
       });
     }
