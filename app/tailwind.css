@@ -11,13 +11,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: #1f387a;
-  background: radial-gradient(
-    circle at 25% 25%,
-    #a4c6ed,
-    #dbede2,
-    #c2c5eb,
-    #f2f2f2
-  );
+  background: #1f387a
+    radial-gradient(circle at 25% 25%, #a4c6ed, #dbede2, #c2c5eb, #f2f2f2);
   min-height: 100vh;
 }
 
