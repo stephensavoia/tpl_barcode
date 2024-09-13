@@ -1,18 +1,38 @@
 import { Carousel } from "flowbite-react";
+import { useCallback, useRef, useState } from "react";
 
-interface WallpaperCarouselProps {
-  handleCarouselChange: (index: number) => void;
-  handleTouchStart: (event: React.TouchEvent) => void;
-  handleTouchEnd: (event: React.TouchEvent) => void;
-  radioRefs: React.MutableRefObject<HTMLInputElement[]>;
-}
+const WallpaperCarousel = () => {
+  const radioRefs = useRef<HTMLInputElement[]>([]);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
 
-const WallpaperCarousel: React.FC<WallpaperCarouselProps> = ({
-  handleCarouselChange,
-  handleTouchStart,
-  handleTouchEnd,
-  radioRefs,
-}) => {
+  const handleCarouselChange = useCallback((index: number) => {
+    if (radioRefs.current[index]) {
+      radioRefs.current[index].checked = true;
+    }
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const eventEndX = e.changedTouches[0].clientX;
+    setTouchEndX(eventEndX);
+
+    if (touchStartX - eventEndX < -50) {
+      const leftControl = document.querySelector(
+        '[data-testid="carousel-left-control"]'
+      );
+      leftControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    } else if (touchStartX - eventEndX > 50) {
+      const rightControl = document.querySelector(
+        '[data-testid="carousel-right-control"]'
+      );
+      rightControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    }
+  };
+
   return (
     <div className="h-[574px]">
       <Carousel

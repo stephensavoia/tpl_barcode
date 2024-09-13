@@ -2,11 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  background-color: #1f387a;
+}
+
 body {
   font-family: "Maven Pro", sans-serif;
   min-height: 100vh;
   margin: 0;
-  background-color: #1f387a;
   background: radial-gradient(
     circle at 25% 25%,
     #a4c6ed,
@@ -34,7 +37,7 @@ h1 > span:first-child {
 }
 h1 > span:nth-child(2) {
   font-size: 3rem;
-  margin: 0.1rem auto 0.32rem auto;
+  margin: 0.1rem auto 0.35rem auto;
 }
 h1 > span:last-child {
   font-size: 2.38rem;

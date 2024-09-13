@@ -4,21 +4,16 @@ import type {
   LinksFunction,
   MetaFunction,
 } from "@remix-run/cloudflare";
-import {
-  Flowbite,
-  Card,
-  Button,
-  TextInput,
-  Label,
-  Carousel,
-  Alert,
-} from "flowbite-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Form, Link, useActionData } from "@remix-run/react";
+import { Flowbite, Card, Button, Alert } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { Form, useActionData } from "@remix-run/react";
 import { HiInformationCircle } from "react-icons/hi";
 import tailwindFlowbiteTheme from "~/tailwindFlowbiteTheme";
 import AspectRatioSelector from "~/components/AspectRatioSelector";
 import WallpaperCarousel from "~/components/WallpaperCarousel";
+import CardNumberInput from "~/components/CardNumberInput";
+import { ActionResult } from "~/types/types";
+import BarcodeDownload from "~/components/BarcodeDownload";
 
 export const meta: MetaFunction = () => {
   return [
@@ -53,6 +48,15 @@ export async function action({ request }: ActionFunctionArgs) {
   let aspectRatio = String(formData.get("aspectRatio") || "AR");
   let design = String(formData.get("design") || "0");
 
+  let formDataResponse: {
+    cardNumber: string;
+    aspectRatio: string;
+    design: string;
+  } = {
+    cardNumber: String(cardNumber),
+    aspectRatio: String(aspectRatio),
+    design: String(design),
+  };
   let errors: { cardNumber?: string } = {};
 
   switch (true) {
@@ -69,66 +73,24 @@ export async function action({ request }: ActionFunctionArgs) {
       break;
   }
 
-  return String(cardNumber) + " " + String(aspectRatio) + " " + String(design);
-}
-
-// Had to add this because typescript is too stupid to understand what a "?" means
-type ActionResult = {
-  errors?: {
-    cardNumber?: string;
+  return {
+    cardNumber: String(cardNumber),
+    aspectRatio: String(aspectRatio),
+    design: String(design),
   };
-};
+}
 
 export default function Index() {
   const actionResult = useActionData<ActionResult>();
-  const [design, setDesign] = useState(0);
   const [cardNumberError, setCardNumberError] = useState(false);
-  const radioRefs = useRef<HTMLInputElement[]>([]);
-  const [touchStartX, setTouchStartX] = useState(0);
-  const [touchEndX, setTouchEndX] = useState(0);
 
   useEffect(() => {
-    if (actionResult && actionResult.errors?.cardNumber) {
-      setCardNumberError(true);
+    if (actionResult) {
+      if (actionResult.errors?.cardNumber) {
+        setCardNumberError(true);
+      }
     }
   }, [actionResult]);
-
-  const handleCardNumberChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const cardNumber = event.target.value;
-      if (cardNumber.length == 14 && /^\d+$/.test(cardNumber)) {
-        setCardNumberError(false);
-      }
-    },
-    []
-  );
-
-  const handleCarouselChange = useCallback((index: number) => {
-    if (radioRefs.current[index]) {
-      radioRefs.current[index].checked = true;
-    }
-  }, []);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const eventEndX = e.changedTouches[0].clientX;
-    setTouchEndX(eventEndX);
-
-    if (touchStartX - eventEndX < -50) {
-      const leftControl = document.querySelector(
-        '[data-testid="carousel-left-control"]'
-      );
-      leftControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    } else if (touchStartX - eventEndX > 50) {
-      const rightControl = document.querySelector(
-        '[data-testid="carousel-right-control"]'
-      );
-      rightControl?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    }
-  };
 
   return (
     <Flowbite theme={{ theme: customTheme }}>
@@ -141,50 +103,11 @@ export default function Index() {
         {!(actionResult && !actionResult.errors) ? (
           <Form method="post">
             <Card className="max-w-md mb-8">
-              <div className="flex max-w-md flex-col gap-4">
-                <div>
-                  <div className="mb-2 block">
-                    <Label
-                      htmlFor="cardNumber"
-                      color={
-                        actionResult &&
-                        actionResult.errors?.cardNumber &&
-                        cardNumberError
-                          ? "failure"
-                          : undefined
-                      }
-                      value="Library card number (14 digits)"
-                    />
-                  </div>
-                  <TextInput
-                    id="cardNumber"
-                    name="cardNumber"
-                    required
-                    color={
-                      actionResult &&
-                      actionResult.errors?.cardNumber &&
-                      cardNumberError
-                        ? "failure"
-                        : undefined
-                    }
-                    helperText={
-                      actionResult &&
-                      actionResult.errors?.cardNumber &&
-                      cardNumberError ? (
-                        <>{actionResult.errors.cardNumber}</>
-                      ) : undefined
-                    }
-                    onChange={
-                      actionResult &&
-                      actionResult.errors?.cardNumber &&
-                      cardNumberError
-                        ? handleCardNumberChange
-                        : undefined
-                    }
-                    sizing="md"
-                  />
-                </div>
-              </div>
+              <CardNumberInput
+                actionResult={actionResult}
+                cardNumberError={cardNumberError}
+                setCardNumberError={setCardNumberError}
+              />
 
               {/* <AspectRatioSelector /> */}
 
@@ -194,16 +117,12 @@ export default function Index() {
                 </span>
               </div>
 
-              <WallpaperCarousel
-                handleCarouselChange={handleCarouselChange}
-                handleTouchStart={handleTouchStart}
-                handleTouchEnd={handleTouchEnd}
-                radioRefs={radioRefs}
-              />
+              <WallpaperCarousel />
 
               <Button className="-translate-y-6" color="blue" type="submit">
                 Generate Barcode
               </Button>
+
               {actionResult && actionResult.errors && cardNumberError ? (
                 <Alert
                   className="-translate-y-6"
@@ -217,24 +136,10 @@ export default function Index() {
           </Form>
         ) : (
           <Card className="max-w-md mb-8">
-            <div className="flex max-w-md flex-col gap-4">
-              {" "}
-              <p className="text-center text-md">
-                This app isn't quite finished yet. <br /> Please come back soon!
-                <br />
-                <br />
-                {String(actionResult)}
-              </p>
-              <Button color="blue" type="submit">
-                Download Wallpaper
-              </Button>
-              <Link
-                to="/"
-                className="text-md text-center mb-4 text-[#304a92] underline hover:no-underline"
-              >
-                Generate Another Barcode
-              </Link>
-            </div>
+            <BarcodeDownload
+              cardNumber={actionResult.cardNumber}
+              design={actionResult.design}
+            />
           </Card>
         )}
       </div>
