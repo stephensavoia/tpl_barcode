@@ -46,7 +46,7 @@ export default async function createWallpaper({
 }: createWallpaperProps) {
   const colors = [
     {
-      bgColor: "#dae5f1",
+      bgColor: "#deeff2",
       fgColor: "#0a1521",
     },
     {
