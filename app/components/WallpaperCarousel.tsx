@@ -39,7 +39,7 @@ const WallpaperCarousel = () => {
         slide={false}
         onSlideChange={(index) => handleCarouselChange(index)}
       >
-        {[0, 1, 2].map((value) => (
+        {[0, 1, 2, 3, 4].map((value) => (
           <div key={value} className="flex h-full items-center justify-center">
             <label
               className="radio-img"

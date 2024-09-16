@@ -31,19 +31,19 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
     }
   }, []);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const highResBarcodeCanvas = document.createElement("canvas");
     highResBarcodeRef.current = highResBarcodeCanvas;
     const highResWallpaperCanvas = document.createElement("canvas");
     highResWallpaperRef.current = highResWallpaperCanvas;
-    console.log(highResBarcodeRef.current);
 
     if (
       highResBarcodeRef.current &&
       highResWallpaperRef.current &&
       cardNumber
     ) {
-      createWallpaper({
+      console.log("Creating high res wallpaper");
+      await createWallpaper({
         barcodeRef: highResBarcodeRef.current,
         wallpaperRef: highResWallpaperRef.current,
         cardNumber,

@@ -1,5 +1,4 @@
 import JsBarcode from "jsbarcode";
-import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 interface createWallpaperProps {
   barcodeRef: HTMLCanvasElement;
@@ -9,7 +8,28 @@ interface createWallpaperProps {
   res: string;
 }
 
-export default function createWallpaper({
+const loadImageAndDraw = (
+  img: HTMLImageElement,
+  wallpaperCtx: CanvasRenderingContext2D,
+  wallpaperRef: HTMLCanvasElement,
+  barcodeRef: HTMLCanvasElement
+): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    img.onload = () => {
+      wallpaperCtx.drawImage(img, 0, 0);
+      const x = (wallpaperRef.width - barcodeRef.width) / 2;
+      const y = (wallpaperRef.height - barcodeRef.height) / 2;
+      wallpaperCtx.drawImage(barcodeRef, x, y);
+      resolve();
+    };
+
+    img.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
+export default async function createWallpaper({
   barcodeRef,
   wallpaperRef,
   cardNumber,
@@ -20,26 +40,22 @@ export default function createWallpaper({
     {
       bgColor: "#dae5f1",
       fgColor: "#0a1521",
-      rColor1: "#a4c6ed",
-      rColor2: "#dbede2",
-      rColor3: "#c2c5eb",
-      rColor4: "#f2f2f2",
     },
     {
-      bgColor: "#f0d6de",
-      fgColor: "#1b0911",
-      rColor1: "#eda4a4",
-      rColor2: "#ebcbd2",
-      rColor3: "#ebc2dd",
-      rColor4: "#f2f2f2",
+      bgColor: "#fff3ef",
+      fgColor: "#251d36",
     },
     {
-      bgColor: "#ececec",
-      fgColor: "#222222",
-      rColor1: "#bbbbbb",
-      rColor2: "#e9e9e9",
-      rColor3: "#b4b4b4",
-      rColor4: "#c7c7c7",
+      bgColor: "#daeaf6",
+      fgColor: "#091226",
+    },
+    {
+      bgColor: "#e9d2dc",
+      fgColor: "#262e30",
+    },
+    {
+      bgColor: "#edeae4",
+      fgColor: "#211e17",
     },
   ];
 
@@ -78,24 +94,16 @@ export default function createWallpaper({
     wallpaperRef.width = dimensions[res].wWidth;
     wallpaperRef.height = dimensions[res].wHeight;
 
-    const gradient = wallpaperCtx.createRadialGradient(
-      wallpaperRef.width * 0.27,
-      wallpaperRef.height * 0.27,
-      0, // Inner circle (x, y, radius)
-      wallpaperRef.width * 0.25,
-      wallpaperRef.height * 0.22,
-      Math.max(wallpaperRef.width, wallpaperRef.height) // Outer circle (x, y, radius)
-    );
-    gradient.addColorStop(0, colors[parseInt(design)].rColor1);
-    gradient.addColorStop(0.33, colors[parseInt(design)].rColor2);
-    gradient.addColorStop(0.66, colors[parseInt(design)].rColor3);
-    gradient.addColorStop(1, colors[parseInt(design)].rColor4);
-    wallpaperCtx.fillStyle = gradient;
+    const img = new Image();
+    img.src =
+      res === "low"
+        ? `/img/wallpaper-${design}-low-res.png`
+        : `/img/wallpaper-${design}.png`;
 
-    wallpaperCtx.fillRect(0, 0, wallpaperRef.width, wallpaperRef.height);
-
-    const x = (wallpaperRef.width - barcodeRef.width) / 2;
-    const y = (wallpaperRef.height - barcodeRef.height) / 2;
-    wallpaperCtx.drawImage(barcodeRef, x, y);
+    try {
+      await loadImageAndDraw(img, wallpaperCtx, wallpaperRef, barcodeRef);
+    } catch (error) {
+      console.error("Error loading image:", error);
+    }
   }
 }
