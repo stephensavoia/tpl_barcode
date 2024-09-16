@@ -17,7 +17,7 @@ export default function Canvas() {
           <span>GENERATOR</span>
         </h1>
         <Card className="max-w-md mb-8">
-          <BarcodeDownload cardNumber="00000000000000" design="0" />
+          <BarcodeDownload cardNumber="00000000000000" design="4" />
         </Card>
       </div>
     </Flowbite>

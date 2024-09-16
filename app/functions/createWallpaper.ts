@@ -1,4 +1,5 @@
 import JsBarcode from "jsbarcode";
+import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 interface createWallpaperProps {
   barcodeRef: HTMLCanvasElement;
@@ -12,14 +13,21 @@ const loadImageAndDraw = (
   img: HTMLImageElement,
   wallpaperCtx: CanvasRenderingContext2D,
   wallpaperRef: HTMLCanvasElement,
-  barcodeRef: HTMLCanvasElement
+  barcodeRef: HTMLCanvasElement,
+  res: string
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     img.onload = () => {
       wallpaperCtx.drawImage(img, 0, 0);
-      const x = (wallpaperRef.width - barcodeRef.width) / 2;
-      const y = (wallpaperRef.height - barcodeRef.height) / 2;
-      wallpaperCtx.drawImage(barcodeRef, x, y);
+      const bcw =
+        res === "low" ? Math.floor(barcodeRef.width / 5.81) : barcodeRef.width;
+      const bch =
+        res === "low"
+          ? Math.floor(barcodeRef.height / 5.81)
+          : barcodeRef.height;
+      const x = (wallpaperRef.width - bcw) / 2;
+      const y = (wallpaperRef.height - bch) / 2;
+      wallpaperCtx.drawImage(barcodeRef, x, y, bcw, bch);
       resolve();
     };
 
@@ -42,20 +50,20 @@ export default async function createWallpaper({
       fgColor: "#0a1521",
     },
     {
-      bgColor: "#fff3ef",
-      fgColor: "#251d36",
+      bgColor: "#e7d5f2",
+      fgColor: "#2b2b4d",
     },
     {
-      bgColor: "#daeaf6",
-      fgColor: "#091226",
+      bgColor: "#f3ecf2",
+      fgColor: "#162c35",
     },
     {
-      bgColor: "#e9d2dc",
-      fgColor: "#262e30",
+      bgColor: "#ecf7e0",
+      fgColor: "#0f221b",
     },
     {
-      bgColor: "#edeae4",
-      fgColor: "#211e17",
+      bgColor: "#e4e9f2",
+      fgColor: "#141f31",
     },
   ];
 
@@ -63,10 +71,10 @@ export default async function createWallpaper({
     low: {
       wWidth: 222,
       wHeight: 472,
-      bWidth: 1,
-      bHeight: 50,
-      fSize: 16,
-      margin: 10,
+      bWidth: 5,
+      bHeight: 250,
+      fSize: 80,
+      margin: 40,
     },
     high: {
       wWidth: 1290,
@@ -101,7 +109,7 @@ export default async function createWallpaper({
         : `/img/wallpaper-${design}.png`;
 
     try {
-      await loadImageAndDraw(img, wallpaperCtx, wallpaperRef, barcodeRef);
+      await loadImageAndDraw(img, wallpaperCtx, wallpaperRef, barcodeRef, res);
     } catch (error) {
       console.error("Error loading image:", error);
     }

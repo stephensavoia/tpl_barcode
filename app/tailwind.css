@@ -33,7 +33,7 @@ h1 > span:first-child {
 }
 h1 > span:nth-child(2) {
   font-size: 3rem;
-  margin: 0.1rem auto 0.4rem auto;
+  margin: 0.1rem auto 0.5rem auto;
 }
 h1 > span:last-child {
   font-size: 2.38rem;
