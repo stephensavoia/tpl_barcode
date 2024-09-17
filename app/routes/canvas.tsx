@@ -1,6 +1,6 @@
 import { Card, Flowbite } from "flowbite-react";
 import BarcodeDownload from "~/components/BarcodeDownload";
-import tailwindFlowbiteTheme from "~/tailwindFlowbiteTheme";
+import { tailwindFlowbiteTheme } from "~/tailwindFlowbiteTheme";
 
 const customTheme = tailwindFlowbiteTheme;
 
