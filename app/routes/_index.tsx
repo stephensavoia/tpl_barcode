@@ -84,7 +84,7 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Index() {
   const actionResult = useActionData<ActionResult>();
   const [cardNumberError, setCardNumberError] = useState(false);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (actionResult) {
