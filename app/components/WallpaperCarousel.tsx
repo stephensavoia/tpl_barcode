@@ -39,7 +39,6 @@ const WallpaperCarousel = () => {
     radioRefs.current.forEach((radio, index) => {
       if (radio) {
         const radioCanvas = radio.closest("label")?.querySelector("canvas");
-        console.log(radioCanvas);
         if (radioCanvas) {
           const radioBarcodeCanvas = document.createElement("canvas");
           if (radioBarcodeCanvas) {

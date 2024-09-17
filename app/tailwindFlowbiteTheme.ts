@@ -1,6 +1,6 @@
 import type { CustomFlowbiteTheme } from "flowbite-react";
 
-const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
+export const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
   card: {
     root: {
       children: "flex h-full flex-col justify-center gap-4 px-6 pt-6 pb-1",
@@ -61,4 +61,11 @@ const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
   },
 };
 
-export default tailwindFlowbiteTheme;
+export const infoButtonTheme: CustomFlowbiteTheme["button"] = {
+  color: {
+    light: "border focus:ring-4 focus:ring-cyan-300",
+  },
+  size: {
+    xs: "px-0 py-0 text-xs",
+  },
+};

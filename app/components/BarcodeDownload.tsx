@@ -42,7 +42,6 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
       highResWallpaperRef.current &&
       cardNumber
     ) {
-      console.log("Creating high res wallpaper");
       await createWallpaper({
         barcodeRef: highResBarcodeRef.current,
         wallpaperRef: highResWallpaperRef.current,

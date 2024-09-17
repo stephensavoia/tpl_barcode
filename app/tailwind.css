@@ -4,6 +4,7 @@
 
 html {
   background-color: #e5e7eb;
+  background-color: #cfdfe3;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background-color: #e5e7eb;
+  background-color: #cfdce3;
   /* background: #f9fafb
     radial-gradient(circle at 25% 25%, #a4c6ed, #dbede2, #c2c5eb, #f2f2f2); */
   min-height: 100vh;
