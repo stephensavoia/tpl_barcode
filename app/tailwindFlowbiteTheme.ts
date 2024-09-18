@@ -63,7 +63,7 @@ export const tailwindFlowbiteTheme: CustomFlowbiteTheme = {
 
 export const infoButtonTheme: CustomFlowbiteTheme["button"] = {
   color: {
-    light: "border focus:ring-4 focus:ring-cyan-300",
+    light: "focus:ring-4 focus:ring-cyan-300",
   },
   size: {
     xs: "px-0 py-0 text-xs",
