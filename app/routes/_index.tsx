@@ -4,9 +4,9 @@ import type {
   LinksFunction,
   MetaFunction,
 } from "@remix-run/cloudflare";
-import { Flowbite, Card, Button, Alert, Modal } from "flowbite-react";
+import { Flowbite, Card, Button, Alert, Modal, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { Form, Link, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { HiInformationCircle } from "react-icons/hi";
 import {
   tailwindFlowbiteTheme,
@@ -85,6 +85,7 @@ export default function Index() {
   const actionResult = useActionData<ActionResult>();
   const [cardNumberError, setCardNumberError] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (actionResult) {
@@ -93,6 +94,8 @@ export default function Index() {
       }
     }
   }, [actionResult]);
+
+  const isSubmitting = navigation.state !== "idle";
 
   return (
     <Flowbite theme={{ theme: customTheme }}>
@@ -121,8 +124,17 @@ export default function Index() {
 
               <WallpaperCarousel />
 
-              <Button className="-translate-y-6" color="blue" type="submit">
-                Generate Barcode
+              <Button
+                className="-translate-y-6"
+                color="blue"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <Spinner color="gray" aria-label="Generating barcode..." />
+                ) : (
+                  "Generate Barcode"
+                )}
               </Button>
 
               {actionResult && actionResult.errors && cardNumberError ? (

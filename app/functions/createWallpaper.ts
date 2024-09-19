@@ -1,5 +1,4 @@
 import JsBarcode from "jsbarcode";
-import { c } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 interface createWallpaperProps {
   barcodeRef: HTMLCanvasElement;
@@ -110,6 +109,10 @@ export default async function createWallpaper({
 
     try {
       await loadImageAndDraw(img, wallpaperCtx, wallpaperRef, barcodeRef, res);
+      const event = new CustomEvent("wallpaperReady", {
+        detail: { wallpaperRef },
+      });
+      window.dispatchEvent(event);
     } catch (error) {
       console.error("Error loading image:", error);
     }

@@ -1,4 +1,4 @@
-import { Carousel } from "flowbite-react";
+import { Carousel, Spinner } from "flowbite-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import createWallpaper from "~/functions/createWallpaper";
 
@@ -63,6 +63,22 @@ const WallpaperCarousel = () => {
     });
   }, [carouselRef]);
 
+  // Listen for wallpaper load event
+  useEffect(() => {
+    const handleWallpaperReady = (e: Event) => {
+      const customEvent = e as CustomEvent<any>;
+      const wallpaperRef = customEvent.detail.wallpaperRef;
+      const spinner = wallpaperRef.nextElementSibling;
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+    };
+    window.addEventListener("wallpaperReady", handleWallpaperReady);
+    return () => {
+      window.removeEventListener("wallpaperReady", handleWallpaperReady);
+    };
+  }, []);
+
   return (
     <div ref={carouselRef} className="h-[574px]">
       <Carousel
@@ -86,6 +102,11 @@ const WallpaperCarousel = () => {
                 <div className="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 -translate-y-0.5 absolute"></div>
                 <div className="rounded-[2rem] overflow-hidden w-[222px] h-[472px] dark:bg-gray-800">
                   <canvas></canvas>
+                  <Spinner
+                    color="gray"
+                    aria-label="Wallpaper image loading..."
+                    className="absolute inset-0 m-auto"
+                  />
                 </div>
               </div>
             </label>

@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
-import { Button } from "flowbite-react"; // Adjust the import path as necessary
-import { useEffect, useRef } from "react";
+import { Button, Spinner } from "flowbite-react"; // Adjust the import path as necessary
+import { useEffect, useRef, useState } from "react";
 import createWallpaper from "~/functions/createWallpaper";
 
 interface BarcodeDownloadProps {
@@ -16,6 +16,7 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
   const lowResWallpaperRef = useRef<HTMLCanvasElement | null>(null); // Actually in the DOM
   const highResBarcodeRef = useRef<HTMLCanvasElement | null>(null);
   const highResWallpaperRef = useRef<HTMLCanvasElement | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     const lowResBarcodeCanvas = document.createElement("canvas");
@@ -32,6 +33,7 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
   }, []);
 
   const handleDownload = async () => {
+    setIsDownloading(true);
     const highResBarcodeCanvas = document.createElement("canvas");
     highResBarcodeRef.current = highResBarcodeCanvas;
     const highResWallpaperCanvas = document.createElement("canvas");
@@ -59,7 +61,24 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
       link.download = "tpl-barcode.png";
       link.click();
     }
+    setIsDownloading(false);
   };
+
+  // Listen for wallpaper load event
+  useEffect(() => {
+    const handleWallpaperReady = (e: Event) => {
+      const customEvent = e as CustomEvent<any>;
+      const wallpaperRef = customEvent.detail.wallpaperRef;
+      const spinner = wallpaperRef.nextElementSibling;
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+    };
+    window.addEventListener("wallpaperReady", handleWallpaperReady);
+    return () => {
+      window.removeEventListener("wallpaperReady", handleWallpaperReady);
+    };
+  }, []);
 
   return (
     <div className="flex max-w-md flex-col gap-4">
@@ -71,10 +90,24 @@ const BarcodeDownload: React.FC<BarcodeDownloadProps> = ({
             ref={lowResWallpaperRef}
             onClick={handleDownload}
           ></canvas>
+          <Spinner
+            color="gray"
+            aria-label="Wallpaper image loading..."
+            className="absolute inset-0 m-auto"
+          />
         </div>
       </div>
-      <Button color="blue" type="button" onClick={handleDownload}>
-        Download Wallpaper
+      <Button
+        color="blue"
+        type="button"
+        onClick={handleDownload}
+        disabled={isDownloading}
+      >
+        {isDownloading ? (
+          <Spinner color="gray" aria-label="Generating barcode..." />
+        ) : (
+          "Download Wallpaper"
+        )}
       </Button>
       <div className="text-center mb-4">
         <Link
