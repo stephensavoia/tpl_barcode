@@ -166,7 +166,7 @@ export default function Index() {
         pill
       >
         <svg
-          className="w-12 h-12 text-gray-800"
+          className="w-10 h-10 text-gray-800"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           width="24"

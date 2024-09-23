@@ -61,6 +61,7 @@ const CardNumberInput: React.FC<CardNumberInputProps> = ({
               : undefined
           }
           sizing="md"
+          autoComplete="off"
         />
       </div>
     </div>
