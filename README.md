@@ -4,9 +4,9 @@ TPL Barcode Generator is a tool that generates phone wallpapers that double as d
 
 This repository contains the code for a version of TPL Barcode Generator that was built using Remix and Flowbite React. I rebuilt this app using JavaScript in order to take advantage of Cloudflare's free static website hosting.
 
-TPL Barcode Generator - JavaScript Version (Recommended):<br>[tplbarcode.com](https://tplbarcode.com/)
+JavaScript Version (Recommended):<br>[tplbarcode.com](https://tplbarcode.com/)
 
-TPL Barcode Generator - Remix Version:<br>
+Remix Version:<br>
 [tpl-barcode.pages.dev](https://tpl-barcode.pages.dev/)
 
 ## Hosting on TPL Barcode Generator on Cloudflare Pages
