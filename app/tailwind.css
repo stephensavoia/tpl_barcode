@@ -51,3 +51,7 @@ h1 > span:last-child {
 form > div > div > div > div > div > button {
   translate: 0 -32px;
 }
+
+#faq-modal {
+  padding: 0;
+}

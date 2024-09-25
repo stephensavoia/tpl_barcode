@@ -161,7 +161,7 @@ export default function Index() {
         theme={infoButtonTheme}
         color="light"
         size="xs"
-        className="absolute top-4 right-4"
+        className="absolute top-4 right-4 p-0"
         onClick={() => setOpenModal(true)}
         pill
       >
@@ -184,6 +184,7 @@ export default function Index() {
         </svg>
       </Button>
       <Modal
+        id="faq-modal"
         dismissible
         show={openModal}
         size="sm"
@@ -220,10 +221,11 @@ export default function Index() {
                 Tap "Download Wallpaper".
               </li>
               <li className="ml-4 text-base leading-relaxed text-gray-500">
+                Save the wallpaper image to "Photos".
+              </li>
+              <li className="ml-4 text-base leading-relaxed text-gray-500">
                 Set the downloaded wallpaper as your phone's lock screen,
-                cropping the image as needed. (You may need to locate the
-                wallpaper under "Files" or "Downloads" and then save it to
-                "Photos" first.)
+                cropping the image as needed.
               </li>
               <li className="ml-4 text-base leading-relaxed text-gray-500">
                 Use your new wallpaper with a barcode scanner at any Toronto
