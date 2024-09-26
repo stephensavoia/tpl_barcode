@@ -15,9 +15,9 @@ Remix Version:<br>
 
 <div style="text-align: center;">
 
-```mermaid
+````mermaid
+%%{init: {'theme': 'default', 'securityLevel': 'loose', 'startOnLoad': true, 'mermaid': {'startOnLoad': true, 'theme': 'default', 'securityLevel': 'loose', 'panZoom': false}}}%%
 sequenceDiagram
-%%{init: {'theme': 'default', 'sequence': {'showPanZoom': false}}}%%
     participant User
     participant Origin Server
     participant Remix App
@@ -26,8 +26,6 @@ sequenceDiagram
     Origin Server->>Remix App: Request Webpage
     Remix App-->>Origin Server: Return Webpage
     Origin Server-->>User: Return Webpage
-
-```
 
 </div>
 
@@ -45,7 +43,7 @@ sequenceDiagram
 
     User->>CDN: Request Webpage
     CDN-->>User: Return Webpage
-```
+````
 
 </div>
 
