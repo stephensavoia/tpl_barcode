@@ -14,6 +14,7 @@ Remix Version:<br>
 ### TPL Barcode Generator - Remix Version
 
 <div style="text-align: center;">
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -24,6 +25,7 @@ sequenceDiagram
     Origin Server->>Remix App: Request Webpage
     Remix App-->>Origin Server: Return Webpage
     Origin Server-->>User: Return Webpage
+```
 
 </div>
 
