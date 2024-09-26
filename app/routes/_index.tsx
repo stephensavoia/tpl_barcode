@@ -26,6 +26,15 @@ export const meta: MetaFunction = () => {
       content:
         "Generate a wallpaper for your phone that doubles as your digital TPL library card.",
     },
+    { property: "og:title", content: "TPL Barcode Generator" },
+    {
+      property: "og:description",
+      content:
+        "Generate a wallpaper for your phone that doubles as your digital TPL library card.",
+    },
+    { property: "og:image", content: "/img/tpl-barcode.png" },
+    { property: "og:url", content: "https://tplbarcode.com" },
+    { property: "og:type", content: "website" },
   ];
 };
 
