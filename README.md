@@ -16,7 +16,7 @@ Remix Version:<br>
 <div style="text-align: center;">
 
 ````mermaid
-%%{init: {'theme': 'default', 'securityLevel': 'loose', 'startOnLoad': true, 'mermaid': {'startOnLoad': true, 'theme': 'default', 'securityLevel': 'loose', 'panZoom': false}}}%%
+%%{init: {'theme': 'default', 'sequence': {'panZoom': false}}}%%
 sequenceDiagram
     participant User
     participant Origin Server
@@ -36,7 +36,7 @@ Remix uses server-side rendering to build webpages before serving them to the cl
 <div style="text-align: center;">
 
 ```mermaid
-%%{init: {'theme': 'default', 'sequence': {'showPanZoom': false}}}%%
+%%{init: {'theme': 'default', 'sequence': {'panZoom': false}}}%%
 sequenceDiagram
     participant User
     participant CDN
