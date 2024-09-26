@@ -14,7 +14,7 @@ Remix Version:<br>
 ### TPL Barcode Generator - Remix Version
 
 <div style="text-align: center;">
-````mermaid
+```mermaid
 sequenceDiagram
     participant User
     participant Origin Server
