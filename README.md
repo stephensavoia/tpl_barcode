@@ -17,6 +17,7 @@ Remix Version:<br>
 
 ```mermaid
 sequenceDiagram
+%%{init: {'theme': 'default', 'sequence': {'showPanZoom': false}}}%%
     participant User
     participant Origin Server
     participant Remix App
@@ -37,6 +38,7 @@ Remix uses server-side rendering to build webpages before serving them to the cl
 <div style="text-align: center;">
 
 ```mermaid
+%%{init: {'theme': 'default', 'sequence': {'showPanZoom': false}}}%%
 sequenceDiagram
     participant User
     participant CDN
